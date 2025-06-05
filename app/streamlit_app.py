@@ -4,7 +4,7 @@ Streamlit-Frontend für den SPIEGEL-Newsletter-Agenten.
 Zeigt die besten thematischen Artikel der letzten 7 Tage.
 
 > cd /Users/S0097439/my_projects/GitHub/Spiegel_Agent/app
-> streamlit run streamlit_app.py
+> streamlit run app/streamlit_app.py
 """
 
 import sys

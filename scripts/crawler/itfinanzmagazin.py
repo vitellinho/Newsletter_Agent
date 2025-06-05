@@ -14,6 +14,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import List, Dict, Any
 from bs4 import BeautifulSoup, Tag
+import re  # ensure regex available
 
 # base importierbar machen
 sys.path.append(str(Path(__file__).resolve().parent))
@@ -102,6 +103,16 @@ def parse_article(html: str, url: str, sitemap_lastmod: str) -> Dict[str, Any]:
             paragraphs.extend(
                 p.get_text(" ", strip=True) for p in container.find_all("p") if isinstance(p, Tag)
             )
+    # Filter Audio-/Download-Links oder „Preview:“‑Absätze
+    paragraphs = [
+        para
+        for para in paragraphs
+        if (
+            ".mp3" not in para.lower()
+            and not para.lower().startswith("https://")
+            and not re.match(r"^\s*preview\s*:", para.lower())
+        )
+    ]
     text = clean_text("\n".join(paragraphs))
 
     return {
